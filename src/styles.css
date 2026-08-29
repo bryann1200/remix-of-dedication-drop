@@ -222,13 +222,13 @@
 }
 
 .animate-rise {
-  animation: rise-in 0.7s var(--ease-spring) both;
+  animation: rise-in 1.4s var(--ease-spring) both;
 }
 .animate-soft {
-  animation: fade-in 0.9s ease both;
+  animation: fade-in 1.6s ease both;
 }
 .animate-blob {
-  animation: float-blob 9s ease-in-out infinite;
+  animation: float-blob 16s ease-in-out infinite;
 }
 .animate-spin-slow {
   animation: spin-slow 14s linear infinite;
