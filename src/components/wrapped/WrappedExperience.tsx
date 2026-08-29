@@ -222,7 +222,7 @@ export function WrappedExperience({
                   <button
                     onClick={toggleAudio}
                     aria-label={audioPlaying ? "Pause" : "Play"}
-                    className="relative z-30 grid size-14 shrink-0 place-items-center rounded-full bg-white text-[color:var(--ink)] transition-transform active:scale-95 sm:size-16"
+                    className="gold-seal relative z-30 grid size-14 shrink-0 place-items-center rounded-full bg-[color:var(--cream)] text-[color:var(--ink)] transition-transform duration-500 active:scale-95 sm:size-16"
                   >
                     {audioPlaying ? (
                       <Pause className="size-6 sm:size-7" />
