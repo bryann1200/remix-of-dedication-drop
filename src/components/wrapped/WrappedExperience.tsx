@@ -155,9 +155,10 @@ export function WrappedExperience({
       <div className="relative z-10 flex h-full flex-col items-center justify-center px-7 py-20 text-center sm:px-16">
         {slide.kind === "teacher" && (
           <div key={`t-${index}`} className="max-w-5xl">
-            <p className="animate-soft font-display text-sm uppercase tracking-[0.35em] text-white/70 sm:text-lg">
+            <p className="animate-soft text-sm uppercase tracking-[0.35em] text-[color:var(--gold)] sm:text-lg">
               Dedication {slide.dedIndex + 1} of {dedications.length}
             </p>
+            <div className="gold-rule animate-soft mx-auto mt-5 w-24" />
             <p
               className="animate-rise mt-6 text-xl text-white/80 sm:text-3xl"
               style={{ animationDelay: "80ms" }}
