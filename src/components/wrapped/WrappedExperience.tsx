@@ -119,7 +119,7 @@ export function WrappedExperience({
 
   return (
     <div
-      className={`relative h-dvh w-full overflow-hidden text-white ${stageClass(groupIndex)} transition-[background-image] duration-700`}
+      className={`relative h-dvh w-full overflow-hidden text-white ${stageClass(groupIndex)} transition-[background-image] duration-[1200ms] ease-in-out`}
       onTouchStart={(e) =>
         (touchStart.current = { x: e.touches[0]!.clientX, t: Date.now() })
       }
@@ -155,9 +155,10 @@ export function WrappedExperience({
       <div className="relative z-10 flex h-full flex-col items-center justify-center px-7 py-20 text-center sm:px-16">
         {slide.kind === "teacher" && (
           <div key={`t-${index}`} className="max-w-5xl">
-            <p className="animate-soft font-display text-sm uppercase tracking-[0.35em] text-white/70 sm:text-lg">
+            <p className="animate-soft text-sm uppercase tracking-[0.35em] text-[color:var(--gold)] sm:text-lg">
               Dedication {slide.dedIndex + 1} of {dedications.length}
             </p>
+            <div className="gold-rule animate-soft mx-auto mt-5 w-24" />
             <p
               className="animate-rise mt-6 text-xl text-white/80 sm:text-3xl"
               style={{ animationDelay: "80ms" }}
@@ -178,9 +179,10 @@ export function WrappedExperience({
             <h2 className="animate-soft font-display text-[clamp(1.6rem,5vw,3.5rem)] leading-tight text-white/70">
               {slide.ded.teacher_name}
             </h2>
+            <div className="gold-rule animate-soft mx-auto mt-7 w-32" />
             <p
-              className="animate-rise mt-8 text-lg uppercase tracking-[0.3em] text-white/70 sm:text-2xl"
-              style={{ animationDelay: "100ms" }}
+              className="animate-rise mt-6 text-lg uppercase tracking-[0.3em] text-[color:var(--gold)] sm:text-2xl"
+              style={{ animationDelay: "200ms" }}
             >
               from
             </p>
@@ -195,16 +197,16 @@ export function WrappedExperience({
 
         {slide.kind === "song" && (
           <div key={`s-${index}`} className="w-full max-w-2xl">
-            <p className="animate-soft text-sm uppercase tracking-[0.3em] text-white/70 sm:text-base">
+            <p className="animate-soft text-sm uppercase tracking-[0.3em] text-[color:var(--gold)] sm:text-base">
               The song for {slide.ded.teacher_name}
             </p>
 
-            <div className="animate-rise mt-6 rounded-[2rem] bg-white/12 p-5 backdrop-blur-md sm:p-7">
+            <div className="gold-hairline animate-rise mt-6 rounded-[2rem] bg-white/8 p-5 backdrop-blur-md sm:p-7">
               <div className="flex items-center gap-4 text-left sm:gap-6">
                 <div
-                  className={`grid size-20 shrink-0 place-items-center rounded-2xl bg-white/20 sm:size-28 ${audioPlaying ? "animate-spin-slow" : ""}`}
+                  className={`gold-hairline grid size-20 shrink-0 place-items-center rounded-full bg-white/10 sm:size-28 ${audioPlaying ? "animate-spin-slow" : ""}`}
                 >
-                  <Music4 className="size-9 sm:size-12" />
+                  <Music4 className="size-9 text-[color:var(--gold)] sm:size-12" />
                 </div>
                 <div className="min-w-0 flex-1">
                   <p className="font-display truncate text-2xl leading-tight sm:text-4xl">
@@ -220,7 +222,7 @@ export function WrappedExperience({
                   <button
                     onClick={toggleAudio}
                     aria-label={audioPlaying ? "Pause" : "Play"}
-                    className="relative z-30 grid size-14 shrink-0 place-items-center rounded-full bg-white text-[color:var(--ink)] transition-transform active:scale-95 sm:size-16"
+                    className="gold-seal relative z-30 grid size-14 shrink-0 place-items-center rounded-full bg-[color:var(--cream)] text-[color:var(--ink)] transition-transform duration-500 active:scale-95 sm:size-16"
                   >
                     {audioPlaying ? (
                       <Pause className="size-6 sm:size-7" />

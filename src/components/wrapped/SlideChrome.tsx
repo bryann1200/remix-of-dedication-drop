@@ -12,10 +12,10 @@ export function ProgressBars({
       {Array.from({ length: count }).map((_, i) => (
         <div
           key={i}
-          className="h-1 flex-1 overflow-hidden rounded-full bg-white/25 backdrop-blur-sm"
+          className="gold-hairline h-1 flex-1 overflow-hidden rounded-full bg-white/10 backdrop-blur-sm"
         >
           <div
-            className="h-full rounded-full bg-white transition-[width] duration-100 ease-linear"
+            className="h-full rounded-full bg-[color:var(--gold)] transition-[width] duration-100 ease-linear"
             style={{ width: `${i < index ? 100 : i === index ? progress * 100 : 0}%` }}
           />
         </div>
@@ -27,14 +27,14 @@ export function ProgressBars({
 export function Blobs() {
   return (
     <div className="pointer-events-none absolute inset-0 overflow-hidden">
-      <div className="animate-blob absolute -left-[20%] top-[8%] h-[55vmin] w-[55vmin] rounded-full bg-white/10 blur-2xl" />
+      <div className="animate-blob absolute -left-[20%] top-[8%] h-[55vmin] w-[55vmin] rounded-full bg-[color:var(--gold)]/10 blur-[80px]" />
       <div
-        className="animate-blob absolute -right-[15%] bottom-[6%] h-[45vmin] w-[45vmin] rounded-full bg-white/10 blur-2xl"
-        style={{ animationDelay: "-3s" }}
+        className="animate-blob absolute -right-[15%] bottom-[6%] h-[45vmin] w-[45vmin] rounded-full bg-white/8 blur-[80px]"
+        style={{ animationDelay: "-5s" }}
       />
       <div
-        className="animate-blob absolute right-[18%] top-[14%] h-[22vmin] w-[22vmin] rounded-full bg-white/10 blur-xl"
-        style={{ animationDelay: "-6s" }}
+        className="animate-blob absolute right-[18%] top-[14%] h-[22vmin] w-[22vmin] rounded-full bg-[color:var(--gold)]/8 blur-3xl"
+        style={{ animationDelay: "-10s" }}
       />
     </div>
   );

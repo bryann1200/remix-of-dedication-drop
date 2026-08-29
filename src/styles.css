@@ -19,11 +19,12 @@
  */
 
 @theme inline {
-  --font-display: "Fredoka", ui-rounded, system-ui, sans-serif;
-  --font-body: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Cormorant Garamond", ui-serif, Georgia, serif;
+  --font-body: "Jost", ui-sans-serif, system-ui, sans-serif;
   --color-cream: var(--cream);
   --color-ink: var(--ink);
-  --ease-spring: linear(0, 0.35, 0.82, 1.02, 1.06, 1.02, 1);
+  --color-gold: var(--gold);
+  --ease-spring: cubic-bezier(0.22, 0.61, 0.36, 1);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -150,14 +151,15 @@
 }
 
 :root {
-  --cream: oklch(0.97 0.02 90);
-  --ink: oklch(0.18 0.03 275);
-  /* high-contrast gradient pairs, rotated per slide */
-  --grad-1: linear-gradient(160deg, oklch(0.32 0.14 320), oklch(0.68 0.21 25));
-  --grad-2: linear-gradient(160deg, oklch(0.26 0.09 265), oklch(0.78 0.16 75));
-  --grad-3: linear-gradient(160deg, oklch(0.34 0.11 155), oklch(0.86 0.18 105));
-  --grad-4: linear-gradient(160deg, oklch(0.28 0.12 285), oklch(0.72 0.18 200));
-  --grad-5: linear-gradient(160deg, oklch(0.3 0.13 20), oklch(0.8 0.17 60));
+  --cream: oklch(0.96 0.02 85);
+  --ink: oklch(0.19 0.07 320);
+  --gold: oklch(0.82 0.13 88);
+  /* royal imperial purple + oxblood, rotated per slide */
+  --grad-1: linear-gradient(160deg, oklch(0.24 0.11 305), oklch(0.31 0.14 20));
+  --grad-2: linear-gradient(160deg, oklch(0.2 0.1 295), oklch(0.36 0.13 12));
+  --grad-3: linear-gradient(160deg, oklch(0.28 0.13 315), oklch(0.26 0.13 24));
+  --grad-4: linear-gradient(160deg, oklch(0.22 0.12 300), oklch(0.34 0.15 8));
+  --grad-5: linear-gradient(160deg, oklch(0.3 0.12 325), oklch(0.24 0.12 18));
 }
 
 @layer base {
@@ -172,7 +174,29 @@
 @utility font-display {
   font-family: var(--font-display);
   font-weight: 600;
-  letter-spacing: -0.03em;
+  letter-spacing: 0.005em;
+}
+
+@utility gold-hairline {
+  border: 1px solid color-mix(in oklab, var(--gold) 45%, transparent);
+}
+
+@utility gold-seal {
+  box-shadow:
+    0 0 0 1px color-mix(in oklab, var(--gold) 70%, transparent),
+    0 0 0 5px color-mix(in oklab, var(--gold) 16%, transparent),
+    0 0 0 6px color-mix(in oklab, var(--gold) 55%, transparent),
+    0 8px 30px oklch(0 0 0 / 0.35);
+}
+
+@utility gold-rule {
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    color-mix(in oklab, var(--gold) 75%, transparent),
+    transparent
+  );
 }
 
 .stage-1 { background-image: var(--grad-1); }
@@ -182,7 +206,7 @@
 .stage-5 { background-image: var(--grad-5); }
 
 @keyframes rise-in {
-  from { opacity: 0; transform: translateY(28px) scale(0.96); }
+  from { opacity: 0; transform: translateY(10px); letter-spacing: 0.06em; }
   to { opacity: 1; transform: none; }
 }
 @keyframes fade-in {
@@ -198,13 +222,13 @@
 }
 
 .animate-rise {
-  animation: rise-in 0.7s var(--ease-spring) both;
+  animation: rise-in 1.4s var(--ease-spring) both;
 }
 .animate-soft {
-  animation: fade-in 0.9s ease both;
+  animation: fade-in 1.6s ease both;
 }
 .animate-blob {
-  animation: float-blob 9s ease-in-out infinite;
+  animation: float-blob 16s ease-in-out infinite;
 }
 .animate-spin-slow {
   animation: spin-slow 14s linear infinite;
