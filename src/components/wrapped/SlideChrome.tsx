@@ -12,10 +12,10 @@ export function ProgressBars({
       {Array.from({ length: count }).map((_, i) => (
         <div
           key={i}
-          className="h-1 flex-1 overflow-hidden rounded-full bg-white/25 backdrop-blur-sm"
+          className="gold-hairline h-1 flex-1 overflow-hidden rounded-full bg-white/10 backdrop-blur-sm"
         >
           <div
-            className="h-full rounded-full bg-white transition-[width] duration-100 ease-linear"
+            className="h-full rounded-full bg-[color:var(--gold)] transition-[width] duration-100 ease-linear"
             style={{ width: `${i < index ? 100 : i === index ? progress * 100 : 0}%` }}
           />
         </div>
