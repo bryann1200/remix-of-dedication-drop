@@ -5,7 +5,7 @@ import { Play, Sparkles } from "lucide-react";
 import { fetchDedications } from "@/lib/dedications";
 import { isSupabaseConfigured } from "@/lib/supabase";
 import { WrappedExperience } from "@/components/wrapped/WrappedExperience";
-import { Blobs } from "@/components/wrapped/SlideChrome";
+import { Blobs, CornerAccents, RoyalCrest, ShineOverlay } from "@/components/wrapped/SlideChrome";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -28,8 +28,11 @@ export const Route = createFileRoute("/")({
 
 function Shell({ children }: { children: React.ReactNode }) {
   return (
-    <main className="stage-1 relative flex h-dvh w-full items-center justify-center overflow-hidden px-7 text-center text-white">
+    <main className="stage-1 relative flex h-dvh w-full items-center justify-center overflow-hidden px-8 text-center text-cream">
       <Blobs />
+      <RoyalCrest className="absolute inset-0 m-auto h-[60vmin] w-[60vmin] text-gold/8 opacity-60" />
+      <CornerAccents />
+      <ShineOverlay />
       <div className="relative z-10 max-w-3xl">{children}</div>
     </main>
   );
@@ -49,7 +52,7 @@ function Index() {
         <h1 className="font-display text-[clamp(2rem,7vw,4rem)] leading-tight">
           Almost there
         </h1>
-        <p className="mt-4 text-lg text-white/85">
+        <p className="font-body mt-4 text-lg text-cream/85">
           Add your existing project's URL and anon key as{" "}
           <span className="font-display">VITE_SUPABASE_URL</span> and{" "}
           <span className="font-display">VITE_SUPABASE_PUBLISHABLE_KEY</span> to load the
@@ -63,7 +66,7 @@ function Index() {
     return (
       <Shell>
         <div className="animate-soft">
-          <div className="mx-auto size-16 animate-spin rounded-full border-4 border-white/25 border-t-white" />
+          <div className="mx-auto size-16 animate-spin rounded-full border-4 border-cream/25 border-t-gold" />
           <p className="font-display mt-8 text-2xl">Gathering the dedications…</p>
         </div>
       </Shell>
@@ -74,7 +77,7 @@ function Index() {
     return (
       <Shell>
         <h1 className="font-display text-[clamp(2rem,7vw,4rem)]">Couldn't load</h1>
-        <p className="mt-4 text-lg text-white/85">{(error as Error).message}</p>
+        <p className="font-body mt-4 text-lg text-cream/85">{(error as Error).message}</p>
       </Shell>
     );
   }
@@ -84,11 +87,11 @@ function Index() {
   if (dedications.length === 0) {
     return (
       <Shell>
-        <Sparkles className="mx-auto size-12 text-white/80" />
+        <Sparkles className="mx-auto size-12 text-gold" />
         <h1 className="font-display mt-6 text-[clamp(2.2rem,8vw,5rem)] leading-[0.95]">
           No dedications yet
         </h1>
-        <p className="mt-5 text-lg text-white/85 sm:text-xl">
+        <p className="font-body mt-5 text-lg text-cream/85 sm:text-xl">
           The moment the first one lands, it'll show up right here — big, loud and
           unmissable.
         </p>
@@ -104,7 +107,7 @@ function Index() {
 
   return (
     <Shell>
-      <p className="animate-soft text-sm uppercase tracking-[0.4em] text-white/75 sm:text-base">
+      <p className="animate-soft font-display text-xs uppercase tracking-[0.4em] text-cream/75 sm:text-sm">
         {dedications.length} dedication{dedications.length === 1 ? "" : "s"}
       </p>
       <h1 className="animate-rise font-display mt-5 text-[clamp(3rem,13vw,9rem)] leading-[0.88]">
@@ -113,19 +116,19 @@ function Index() {
         Wrapped
       </h1>
       <p
-        className="animate-rise mx-auto mt-6 max-w-xl text-lg text-white/85 sm:text-2xl"
+        className="animate-rise font-body mx-auto mt-6 max-w-xl text-lg text-cream/85 sm:text-2xl"
         style={{ animationDelay: "140ms" }}
       >
         Every song, every message, every teacher who made the year.
       </p>
       <button
         onClick={() => setStarted(true)}
-        className="animate-rise font-display mt-10 inline-flex items-center gap-3 rounded-full bg-white px-10 py-4 text-xl text-[color:var(--ink)] transition-transform active:scale-95 sm:text-2xl"
+        className="animate-rise font-display mt-10 inline-flex items-center gap-3 rounded-full bg-gold px-10 py-4 text-xl text-ink transition-transform active:scale-95 sm:text-2xl"
         style={{ animationDelay: "260ms" }}
       >
         <Play className="size-6 translate-x-0.5" /> Start
       </button>
-      <p className="mt-6 text-sm text-white/65">Tap right to advance, left to go back</p>
+      <p className="font-body mt-6 text-sm text-cream/65">Tap right to advance, left to go back</p>
     </Shell>
   );
 }
