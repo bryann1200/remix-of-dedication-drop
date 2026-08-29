@@ -197,16 +197,16 @@ export function WrappedExperience({
 
         {slide.kind === "song" && (
           <div key={`s-${index}`} className="w-full max-w-2xl">
-            <p className="animate-soft text-sm uppercase tracking-[0.3em] text-white/70 sm:text-base">
+            <p className="animate-soft text-sm uppercase tracking-[0.3em] text-[color:var(--gold)] sm:text-base">
               The song for {slide.ded.teacher_name}
             </p>
 
-            <div className="animate-rise mt-6 rounded-[2rem] bg-white/12 p-5 backdrop-blur-md sm:p-7">
+            <div className="gold-hairline animate-rise mt-6 rounded-[2rem] bg-white/8 p-5 backdrop-blur-md sm:p-7">
               <div className="flex items-center gap-4 text-left sm:gap-6">
                 <div
-                  className={`grid size-20 shrink-0 place-items-center rounded-2xl bg-white/20 sm:size-28 ${audioPlaying ? "animate-spin-slow" : ""}`}
+                  className={`gold-hairline grid size-20 shrink-0 place-items-center rounded-full bg-white/10 sm:size-28 ${audioPlaying ? "animate-spin-slow" : ""}`}
                 >
-                  <Music4 className="size-9 sm:size-12" />
+                  <Music4 className="size-9 text-[color:var(--gold)] sm:size-12" />
                 </div>
                 <div className="min-w-0 flex-1">
                   <p className="font-display truncate text-2xl leading-tight sm:text-4xl">
