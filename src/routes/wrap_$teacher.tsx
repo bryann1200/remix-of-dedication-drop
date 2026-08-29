@@ -7,7 +7,7 @@ import { isSupabaseConfigured } from "@/lib/supabase";
 import { WrappedExperience } from "@/components/wrapped/WrappedExperience";
 import { Blobs, CornerAccents, RoyalCrest, ShineOverlay } from "@/components/wrapped/SlideChrome";
 
-export const Route = createFileRoute("/wrap/$teacher")({
+export const Route = createFileRoute("/wrap_$teacher")({
   head: ({ params }) => ({
     meta: [
       { title: `${decodeURIComponent(params.teacher)}'s Dedications Wrapped` },
