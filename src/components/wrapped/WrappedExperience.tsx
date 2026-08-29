@@ -119,7 +119,7 @@ export function WrappedExperience({
 
   return (
     <div
-      className={`relative h-dvh w-full overflow-hidden text-white ${stageClass(groupIndex)} transition-[background-image] duration-700`}
+      className={`relative h-dvh w-full overflow-hidden text-white ${stageClass(groupIndex)} transition-[background-image] duration-[1200ms] ease-in-out`}
       onTouchStart={(e) =>
         (touchStart.current = { x: e.touches[0]!.clientX, t: Date.now() })
       }
