@@ -174,7 +174,29 @@
 @utility font-display {
   font-family: var(--font-display);
   font-weight: 600;
-  letter-spacing: -0.03em;
+  letter-spacing: 0.005em;
+}
+
+@utility gold-hairline {
+  border: 1px solid color-mix(in oklab, var(--gold) 45%, transparent);
+}
+
+@utility gold-seal {
+  box-shadow:
+    0 0 0 1px color-mix(in oklab, var(--gold) 70%, transparent),
+    0 0 0 5px color-mix(in oklab, var(--gold) 16%, transparent),
+    0 0 0 6px color-mix(in oklab, var(--gold) 55%, transparent),
+    0 8px 30px oklch(0 0 0 / 0.35);
+}
+
+@utility gold-rule {
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    color-mix(in oklab, var(--gold) 75%, transparent),
+    transparent
+  );
 }
 
 .stage-1 { background-image: var(--grad-1); }
