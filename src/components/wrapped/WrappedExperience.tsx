@@ -179,9 +179,10 @@ export function WrappedExperience({
             <h2 className="animate-soft font-display text-[clamp(1.6rem,5vw,3.5rem)] leading-tight text-white/70">
               {slide.ded.teacher_name}
             </h2>
+            <div className="gold-rule animate-soft mx-auto mt-7 w-32" />
             <p
-              className="animate-rise mt-8 text-lg uppercase tracking-[0.3em] text-white/70 sm:text-2xl"
-              style={{ animationDelay: "100ms" }}
+              className="animate-rise mt-6 text-lg uppercase tracking-[0.3em] text-[color:var(--gold)] sm:text-2xl"
+              style={{ animationDelay: "200ms" }}
             >
               from
             </p>
