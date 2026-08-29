@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Play, Pause, RotateCcw, Music4, ChevronRight } from "lucide-react";
 import type { Dedication } from "@/lib/dedications";
 import { audioUrl } from "@/lib/supabase";
-import { Blobs, ProgressBars } from "./SlideChrome";
+import { Blobs, ProgressBars, CornerAccents, RoyalCrest, ShineOverlay } from "./SlideChrome";
 
 type Slide =
   | { kind: "teacher" | "from" | "song"; ded: Dedication; dedIndex: number }
@@ -119,7 +119,7 @@ export function WrappedExperience({
 
   return (
     <div
-      className={`relative h-dvh w-full overflow-hidden text-white ${stageClass(groupIndex)} transition-[background-image] duration-[1200ms] ease-in-out`}
+      className={`relative h-dvh w-full overflow-hidden text-cream ${stageClass(groupIndex)} transition-[background-image] duration-[1200ms] ease-in-out`}
       onTouchStart={(e) =>
         (touchStart.current = { x: e.touches[0]!.clientX, t: Date.now() })
       }
@@ -132,6 +132,9 @@ export function WrappedExperience({
       }}
     >
       <Blobs />
+      <RoyalCrest className="absolute inset-0 m-auto h-[60vmin] w-[60vmin] text-gold/8 opacity-60" />
+      <CornerAccents />
+      <ShineOverlay />
       {slide.kind !== "end" && (
         <ProgressBars
           count={3}
@@ -152,21 +155,21 @@ export function WrappedExperience({
         onClick={() => go(1)}
       />
 
-      <div className="relative z-10 flex h-full flex-col items-center justify-center px-7 py-20 text-center sm:px-16">
+      <div className="relative z-10 flex h-full flex-col items-center justify-center px-8 py-20 text-center sm:px-20">
         {slide.kind === "teacher" && (
           <div key={`t-${index}`} className="max-w-5xl">
-            <p className="animate-soft text-sm uppercase tracking-[0.35em] text-[color:var(--gold)] sm:text-lg">
+            <p className="animate-soft font-display text-xs uppercase tracking-[0.35em] text-gold sm:text-sm">
               Dedication {slide.dedIndex + 1} of {dedications.length}
             </p>
             <div className="gold-rule animate-soft mx-auto mt-5 w-24" />
             <p
-              className="animate-rise mt-6 text-xl text-white/80 sm:text-3xl"
+              className="animate-rise font-body mt-6 text-xl text-cream/80 sm:text-3xl"
               style={{ animationDelay: "80ms" }}
             >
               This one's for
             </p>
             <h1
-              className="animate-rise font-display mt-2 text-[clamp(3rem,13vw,10rem)] leading-[0.92]"
+              className="animate-rise font-body mt-2 text-[clamp(3rem,13vw,10rem)] leading-[0.92]"
               style={{ animationDelay: "220ms" }}
             >
               {slide.ded.teacher_name}
@@ -176,18 +179,18 @@ export function WrappedExperience({
 
         {slide.kind === "from" && (
           <div key={`f-${index}`} className="max-w-4xl">
-            <h2 className="animate-soft font-display text-[clamp(1.6rem,5vw,3.5rem)] leading-tight text-white/70">
+            <h2 className="animate-soft font-body text-[clamp(1.6rem,5vw,3.5rem)] leading-tight text-cream/70">
               {slide.ded.teacher_name}
             </h2>
             <div className="gold-rule animate-soft mx-auto mt-7 w-32" />
             <p
-              className="animate-rise mt-6 text-lg uppercase tracking-[0.3em] text-[color:var(--gold)] sm:text-2xl"
+              className="animate-rise font-display mt-6 text-lg uppercase tracking-[0.3em] text-gold sm:text-2xl"
               style={{ animationDelay: "200ms" }}
             >
               from
             </p>
             <p
-              className="animate-rise font-display mt-3 text-[clamp(2.4rem,9vw,7rem)] leading-[0.95]"
+              className="animate-rise font-body mt-3 text-[clamp(2.4rem,9vw,7rem)] leading-[0.95]"
               style={{ animationDelay: "240ms" }}
             >
               {slide.ded.from_name}
@@ -197,23 +200,23 @@ export function WrappedExperience({
 
         {slide.kind === "song" && (
           <div key={`s-${index}`} className="w-full max-w-2xl">
-            <p className="animate-soft text-sm uppercase tracking-[0.3em] text-[color:var(--gold)] sm:text-base">
+            <p className="animate-soft font-display text-xs uppercase tracking-[0.3em] text-gold sm:text-sm">
               The song for {slide.ded.teacher_name}
             </p>
 
-            <div className="gold-hairline animate-rise mt-6 rounded-[2rem] bg-white/8 p-5 backdrop-blur-md sm:p-7">
+            <div className="gold-hairline animate-rise mt-6 rounded-[2rem] bg-cream/8 p-5 backdrop-blur-md sm:p-7">
               <div className="flex items-center gap-4 text-left sm:gap-6">
                 <div
-                  className={`gold-hairline grid size-20 shrink-0 place-items-center rounded-full bg-white/10 sm:size-28 ${audioPlaying ? "animate-spin-slow" : ""}`}
+                  className={`gold-hairline grid size-20 shrink-0 place-items-center rounded-full bg-cream/10 sm:size-28 ${audioPlaying ? "animate-spin-slow" : ""}`}
                 >
-                  <Music4 className="size-9 text-[color:var(--gold)] sm:size-12" />
+                  <Music4 className="size-9 text-gold sm:size-12" />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <p className="font-display truncate text-2xl leading-tight sm:text-4xl">
+                  <p className="font-body truncate text-2xl leading-tight sm:text-4xl">
                     {slide.ded.song_title}
                   </p>
                   {slide.ded.song_artist && (
-                    <p className="mt-1 truncate text-base text-white/75 sm:text-xl">
+                    <p className="font-body mt-1 truncate text-base text-cream/75 sm:text-xl">
                       {slide.ded.song_artist}
                     </p>
                   )}
@@ -222,7 +225,7 @@ export function WrappedExperience({
                   <button
                     onClick={toggleAudio}
                     aria-label={audioPlaying ? "Pause" : "Play"}
-                    className="gold-seal relative z-30 grid size-14 shrink-0 place-items-center rounded-full bg-[color:var(--cream)] text-[color:var(--ink)] transition-transform duration-500 active:scale-95 sm:size-16"
+                    className="gold-seal relative z-30 grid size-14 shrink-0 place-items-center rounded-full transition-transform duration-500 active:scale-95 sm:size-16"
                   >
                     {audioPlaying ? (
                       <Pause className="size-6 sm:size-7" />
@@ -235,12 +238,12 @@ export function WrappedExperience({
             </div>
 
             <p
-              className="animate-rise mx-auto mt-7 max-w-xl text-pretty text-base leading-relaxed text-white/90 sm:text-xl"
+              className="animate-rise font-body mx-auto mt-7 max-w-xl text-pretty text-base leading-relaxed text-cream/90 sm:text-xl"
               style={{ animationDelay: "160ms" }}
             >
               “{slide.ded.message}”
             </p>
-            <p className="animate-soft mt-4 text-sm uppercase tracking-[0.25em] text-white/65 sm:text-base">
+            <p className="animate-soft font-body mt-4 text-sm text-cream/65 sm:text-base">
               — {slide.ded.from_name}
             </p>
           </div>
@@ -252,7 +255,7 @@ export function WrappedExperience({
               That's a wrap.
             </h2>
             <p
-              className="animate-rise mt-6 text-lg text-white/85 sm:text-2xl"
+              className="animate-rise font-body mt-6 text-lg text-cream/85 sm:text-2xl"
               style={{ animationDelay: "150ms" }}
             >
               {dedications.length} dedication{dedications.length === 1 ? "" : "s"}, all
@@ -261,13 +264,13 @@ export function WrappedExperience({
             <div className="relative z-30 mt-10 flex flex-wrap justify-center gap-3">
               <button
                 onClick={restart}
-                className="font-display inline-flex items-center gap-2 rounded-full bg-white px-7 py-3.5 text-lg text-[color:var(--ink)] transition-transform active:scale-95"
+                className="font-display inline-flex items-center gap-2 rounded-full bg-gold px-7 py-3.5 text-lg text-ink transition-transform active:scale-95"
               >
                 <RotateCcw className="size-5" /> Replay
               </button>
               <button
                 onClick={onExit}
-                className="font-display inline-flex items-center gap-2 rounded-full bg-white/15 px-7 py-3.5 text-lg text-white backdrop-blur-md transition-transform active:scale-95"
+                className="font-display inline-flex items-center gap-2 rounded-full border border-gold/40 bg-cream/10 px-7 py-3.5 text-lg text-cream backdrop-blur-md transition-transform active:scale-95"
               >
                 Back to start <ChevronRight className="size-5" />
               </button>
@@ -280,16 +283,16 @@ export function WrappedExperience({
         <div className="absolute inset-x-0 bottom-0 z-30 flex items-center justify-between px-5 pb-6 sm:px-8">
           <button
             onClick={() => setPaused((p) => !p)}
-            className="rounded-full bg-white/15 px-4 py-2 text-xs uppercase tracking-[0.2em] backdrop-blur-md sm:text-sm"
+            className="font-display rounded-full border border-gold/40 bg-cream/10 px-4 py-2 text-xs uppercase tracking-[0.2em] text-cream backdrop-blur-md sm:text-sm"
           >
             {paused ? "Resume" : "Pause"}
           </button>
           <button
             onClick={restart}
             aria-label="Replay from start"
-            className="grid size-10 place-items-center rounded-full bg-white/15 backdrop-blur-md"
+            className="grid size-10 place-items-center rounded-full border border-gold/40 bg-cream/10 backdrop-blur-md"
           >
-            <RotateCcw className="size-4" />
+            <RotateCcw className="size-4 text-cream" />
           </button>
         </div>
       )}
