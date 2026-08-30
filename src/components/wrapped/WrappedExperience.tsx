@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Play, Pause, RotateCcw, Music4, ChevronRight } from "lucide-react";
+import { Play, Pause, RotateCcw, Music4, ChevronRight, ChevronLeft } from "lucide-react";
 import type { Dedication } from "@/lib/dedications";
 import { audioUrl } from "@/lib/supabase";
 import { Blobs, ProgressBars, CornerAccents, RoyalCrest, ShineOverlay } from "./SlideChrome";
@@ -17,20 +17,27 @@ function stageClass(i: number) {
 export function WrappedExperience({
   dedications,
   onExit,
+  onBack,
+  skipTeacherSlide = false,
 }: {
   dedications: Dedication[];
   onExit: () => void;
+  onBack?: () => void;
+  skipTeacherSlide?: boolean;
 }) {
+  const kinds = useMemo(
+    () => (skipTeacherSlide ? (["from", "song"] as const) : (["teacher", "from", "song"] as const)),
+    [skipTeacherSlide],
+  );
+
   const slides = useMemo<Slide[]>(() => {
     const out: Slide[] = [];
     dedications.forEach((ded, dedIndex) => {
-      out.push({ kind: "teacher", ded, dedIndex });
-      out.push({ kind: "from", ded, dedIndex });
-      out.push({ kind: "song", ded, dedIndex });
+      kinds.forEach((kind) => out.push({ kind, ded, dedIndex }));
     });
     out.push({ kind: "end" });
     return out;
-  }, [dedications]);
+  }, [dedications, kinds]);
 
   const [index, setIndex] = useState(0);
   const [progress, setProgress] = useState(0);
@@ -39,8 +46,9 @@ export function WrappedExperience({
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const touchStart = useRef<{ x: number; t: number } | null>(null);
 
-  const slide = slides[index]!;
+  const slide = slides[Math.min(index, slides.length - 1)]!;
   const duration = DURATION[slide.kind];
+
 
   const go = useCallback(
     (delta: number) => {
@@ -137,8 +145,8 @@ export function WrappedExperience({
       <ShineOverlay />
       {slide.kind !== "end" && (
         <ProgressBars
-          count={3}
-          index={["teacher", "from", "song"].indexOf(slide.kind)}
+          count={kinds.length}
+          index={(kinds as readonly string[]).indexOf(slide.kind)}
           progress={progress}
         />
       )}
@@ -154,6 +162,16 @@ export function WrappedExperience({
         className="absolute inset-y-0 right-0 z-20 w-[40%] cursor-e-resize"
         onClick={() => go(1)}
       />
+
+      {onBack && (
+        <button
+          onClick={onBack}
+          className="font-display absolute left-5 top-12 z-40 inline-flex items-center gap-1.5 rounded-full border border-gold/40 bg-cream/10 px-4 py-2 text-xs uppercase tracking-[0.2em] text-cream backdrop-blur-md sm:left-8 sm:top-16"
+        >
+          <ChevronLeft className="size-4" /> Board
+        </button>
+      )}
+
 
       <div className="relative z-10 flex h-full flex-col items-center justify-center px-8 py-20 text-center sm:px-20">
         {slide.kind === "teacher" && (
