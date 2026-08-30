@@ -1,10 +1,15 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
-import { Play, Sparkles } from "lucide-react";
+import { useMemo, useState } from "react";
+import { ChevronLeft, Sparkles } from "lucide-react";
 import { fetchDedications } from "@/lib/dedications";
+import { mockDedications } from "@/lib/mockDedications";
+import { ALL_TEACHERS, groupByTeacher } from "@/lib/grouping";
 import { isSupabaseConfigured } from "@/lib/supabase";
 import { WrappedExperience } from "@/components/wrapped/WrappedExperience";
+import { Teaser } from "@/components/wrapped/Teaser";
+import { Chalkboard } from "@/components/wrapped/Chalkboard";
+import { AllTeachersRow } from "@/components/wrapped/AllTeachersRow";
 import { Blobs, CornerAccents, RoyalCrest, ShineOverlay } from "@/components/wrapped/SlideChrome";
 
 export const Route = createFileRoute("/")({
@@ -38,15 +43,27 @@ function Shell({ children }: { children: React.ReactNode }) {
   );
 }
 
+type View =
+  | { stage: "teaser" }
+  | { stage: "board" }
+  | { stage: "reveal"; teacher: string }
+  | { stage: "cards" }
+  | { stage: "card-reveal"; index: number };
+
 function Index() {
-  const [started, setStarted] = useState(false);
+  const [view, setView] = useState<View>({ stage: "teaser" });
+  const [useMock, setUseMock] = useState(false);
+
   const { data, isPending, error } = useQuery({
     queryKey: ["dedications"],
     queryFn: fetchDedications,
-    enabled: isSupabaseConfigured,
+    enabled: isSupabaseConfigured && !useMock,
   });
 
-  if (!isSupabaseConfigured) {
+  const dedications = useMock ? mockDedications : (data ?? []);
+  const { groups, names } = useMemo(() => groupByTeacher(dedications), [dedications]);
+
+  if (!useMock && !isSupabaseConfigured) {
     return (
       <Shell>
         <h1 className="font-display text-[clamp(2rem,7vw,4rem)] leading-tight">
@@ -62,7 +79,7 @@ function Index() {
     );
   }
 
-  if (isPending) {
+  if (!useMock && isPending) {
     return (
       <Shell>
         <div className="animate-soft">
@@ -73,7 +90,7 @@ function Index() {
     );
   }
 
-  if (error) {
+  if (!useMock && error) {
     return (
       <Shell>
         <h1 className="font-display text-[clamp(2rem,7vw,4rem)]">Couldn't load</h1>
@@ -81,8 +98,6 @@ function Index() {
       </Shell>
     );
   }
-
-  const dedications = data ?? [];
 
   if (dedications.length === 0) {
     return (
@@ -95,40 +110,79 @@ function Index() {
           The moment the first one lands, it'll show up right here — big, loud and
           unmissable.
         </p>
+        <button
+          onClick={() => {
+            setUseMock(true);
+            setView({ stage: "teaser" });
+          }}
+          className="font-display mt-9 inline-flex items-center gap-2 rounded-full border border-gold/40 bg-cream/10 px-7 py-3 text-sm uppercase tracking-[0.2em] text-cream backdrop-blur-md"
+        >
+          Preview with sample dedications
+        </button>
       </Shell>
     );
   }
 
-  if (started) {
+  const backToBoard = () => setView({ stage: "board" });
+
+  if (view.stage === "teaser") {
+    return <Teaser onProceed={backToBoard} />;
+  }
+
+  if (view.stage === "board") {
     return (
-      <WrappedExperience dedications={dedications} onExit={() => setStarted(false)} />
+      <Chalkboard
+        names={names}
+        onSelect={(name) =>
+          setView(name === ALL_TEACHERS ? { stage: "cards" } : { stage: "reveal", teacher: name })
+        }
+      />
+    );
+  }
+
+  if (view.stage === "cards") {
+    const all = groups.get(ALL_TEACHERS) ?? [];
+    return (
+      <div className="relative">
+        <BackButton onClick={backToBoard} />
+        <AllTeachersRow
+          dedications={all}
+          onSelect={(index) => setView({ stage: "card-reveal", index })}
+        />
+      </div>
+    );
+  }
+
+  if (view.stage === "card-reveal") {
+    const all = groups.get(ALL_TEACHERS) ?? [];
+    const one = all[view.index];
+    if (!one) return <Chalkboard names={names} onSelect={() => setView({ stage: "board" })} />;
+    return (
+      <WrappedExperience
+        dedications={[one]}
+        skipTeacherSlide
+        onBack={() => setView({ stage: "cards" })}
+        onExit={() => setView({ stage: "cards" })}
+      />
     );
   }
 
   return (
-    <Shell>
-      <p className="animate-soft font-display text-xs uppercase tracking-[0.4em] text-cream/75 sm:text-sm">
-        {dedications.length} dedication{dedications.length === 1 ? "" : "s"}
-      </p>
-      <h1 className="animate-rise font-display mt-5 text-[clamp(3rem,13vw,9rem)] leading-[0.88]">
-        Dedications
-        <br />
-        Wrapped
-      </h1>
-      <p
-        className="animate-rise font-body mx-auto mt-6 max-w-xl text-lg text-cream/85 sm:text-2xl"
-        style={{ animationDelay: "140ms" }}
-      >
-        Every song, every message, every teacher who made the year.
-      </p>
-      <button
-        onClick={() => setStarted(true)}
-        className="animate-rise font-display mt-10 inline-flex items-center gap-3 rounded-full bg-gold px-10 py-4 text-xl text-ink transition-transform active:scale-95 sm:text-2xl"
-        style={{ animationDelay: "260ms" }}
-      >
-        <Play className="size-6 translate-x-0.5" /> Start
-      </button>
-      <p className="font-body mt-6 text-sm text-cream/65">Tap right to advance, left to go back</p>
-    </Shell>
+    <WrappedExperience
+      dedications={groups.get(view.teacher) ?? []}
+      onBack={backToBoard}
+      onExit={backToBoard}
+    />
+  );
+}
+
+function BackButton({ onClick }: { onClick: () => void }) {
+  return (
+    <button
+      onClick={onClick}
+      className="font-display absolute left-5 top-5 z-40 inline-flex items-center gap-1.5 rounded-full border border-gold/40 bg-cream/10 px-4 py-2 text-xs uppercase tracking-[0.2em] text-cream backdrop-blur-md sm:left-8 sm:top-8"
+    >
+      <ChevronLeft className="size-4" /> Board
+    </button>
   );
 }
