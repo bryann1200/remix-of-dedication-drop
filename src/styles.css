@@ -21,6 +21,8 @@
 @theme inline {
   --font-display: "Cinzel", ui-serif, Georgia, serif;
   --font-body: "Lora", ui-serif, Georgia, serif;
+  --font-chalk: "Caveat", "Segoe Script", cursive;
+
   --color-cream: var(--cream);
   --color-ink: var(--ink);
   --color-gold: var(--gold);
