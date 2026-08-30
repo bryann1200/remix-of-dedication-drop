@@ -256,7 +256,7 @@ export function WrappedExperience({
             </div>
 
             <p
-              className="animate-rise font-body mx-auto mt-7 max-w-xl text-pretty text-base leading-relaxed text-cream/90 sm:text-xl"
+              className="animate-rise font-body mt-7 max-w-xl text-left text-pretty text-base leading-relaxed text-cream/90 sm:text-xl"
               style={{ animationDelay: "160ms" }}
             >
               “{slide.ded.message}”
