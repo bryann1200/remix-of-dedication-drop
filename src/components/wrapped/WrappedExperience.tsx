@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Play, Pause, RotateCcw, Music4, ChevronRight } from "lucide-react";
+import { Play, Pause, RotateCcw, Music4, ChevronRight, ChevronLeft } from "lucide-react";
 import type { Dedication } from "@/lib/dedications";
 import { audioUrl } from "@/lib/supabase";
 import { Blobs, ProgressBars, CornerAccents, RoyalCrest, ShineOverlay } from "./SlideChrome";
@@ -17,20 +17,27 @@ function stageClass(i: number) {
 export function WrappedExperience({
   dedications,
   onExit,
+  onBack,
+  skipTeacherSlide = false,
 }: {
   dedications: Dedication[];
   onExit: () => void;
+  onBack?: () => void;
+  skipTeacherSlide?: boolean;
 }) {
+  const kinds = useMemo(
+    () => (skipTeacherSlide ? (["from", "song"] as const) : (["teacher", "from", "song"] as const)),
+    [skipTeacherSlide],
+  );
+
   const slides = useMemo<Slide[]>(() => {
     const out: Slide[] = [];
     dedications.forEach((ded, dedIndex) => {
-      out.push({ kind: "teacher", ded, dedIndex });
-      out.push({ kind: "from", ded, dedIndex });
-      out.push({ kind: "song", ded, dedIndex });
+      kinds.forEach((kind) => out.push({ kind, ded, dedIndex }));
     });
     out.push({ kind: "end" });
     return out;
-  }, [dedications]);
+  }, [dedications, kinds]);
 
   const [index, setIndex] = useState(0);
   const [progress, setProgress] = useState(0);
@@ -39,8 +46,9 @@ export function WrappedExperience({
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const touchStart = useRef<{ x: number; t: number } | null>(null);
 
-  const slide = slides[index]!;
+  const slide = slides[Math.min(index, slides.length - 1)]!;
   const duration = DURATION[slide.kind];
+
 
   const go = useCallback(
     (delta: number) => {
