@@ -11,7 +11,6 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as FeedRouteImport } from './routes/feed'
-import { Route as Wrap_teacherRouteImport } from './routes/wrap_$teacher'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -23,40 +22,31 @@ const FeedRoute = FeedRouteImport.update({
   path: '/feed',
   getParentRoute: () => rootRouteImport,
 } as any)
-const Wrap_teacherRoute = Wrap_teacherRouteImport.update({
-  id: '/wrap_$teacher',
-  path: '/wrap_$teacher',
-  getParentRoute: () => rootRouteImport,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/feed': typeof FeedRoute
-  '/wrap_$teacher': typeof Wrap_teacherRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/feed': typeof FeedRoute
-  '/wrap_$teacher': typeof Wrap_teacherRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/feed': typeof FeedRoute
-  '/wrap_$teacher': typeof Wrap_teacherRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/feed' | '/wrap_$teacher'
+  fullPaths: '/' | '/feed'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/feed' | '/wrap_$teacher'
-  id: '__root__' | '/' | '/feed' | '/wrap_$teacher'
+  to: '/' | '/feed'
+  id: '__root__' | '/' | '/feed'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   FeedRoute: typeof FeedRoute
-  Wrap_teacherRoute: typeof Wrap_teacherRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -75,20 +65,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FeedRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/wrap_$teacher': {
-      id: '/wrap_$teacher'
-      path: '/wrap_$teacher'
-      fullPath: '/wrap_$teacher'
-      preLoaderRoute: typeof Wrap_teacherRouteImport
-      parentRoute: typeof rootRouteImport
-    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   FeedRoute: FeedRoute,
-  Wrap_teacherRoute: Wrap_teacherRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
