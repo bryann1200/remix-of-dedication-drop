@@ -10,11 +10,17 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as FeedRouteImport } from './routes/feed'
 import { Route as Wrap_teacherRouteImport } from './routes/wrap_$teacher'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FeedRoute = FeedRouteImport.update({
+  id: '/feed',
+  path: '/feed',
   getParentRoute: () => rootRouteImport,
 } as any)
 const Wrap_teacherRoute = Wrap_teacherRouteImport.update({
@@ -25,27 +31,31 @@ const Wrap_teacherRoute = Wrap_teacherRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/feed': typeof FeedRoute
   '/wrap_$teacher': typeof Wrap_teacherRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/feed': typeof FeedRoute
   '/wrap_$teacher': typeof Wrap_teacherRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/feed': typeof FeedRoute
   '/wrap_$teacher': typeof Wrap_teacherRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/wrap_$teacher'
+  fullPaths: '/' | '/feed' | '/wrap_$teacher'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/wrap_$teacher'
-  id: '__root__' | '/' | '/wrap_$teacher'
+  to: '/' | '/feed' | '/wrap_$teacher'
+  id: '__root__' | '/' | '/feed' | '/wrap_$teacher'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  FeedRoute: typeof FeedRoute
   Wrap_teacherRoute: typeof Wrap_teacherRoute
 }
 
@@ -56,6 +66,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/feed': {
+      id: '/feed'
+      path: '/feed'
+      fullPath: '/feed'
+      preLoaderRoute: typeof FeedRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/wrap_$teacher': {
@@ -70,6 +87,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  FeedRoute: FeedRoute,
   Wrap_teacherRoute: Wrap_teacherRoute,
 }
 export const routeTree = rootRouteImport
